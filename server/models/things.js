@@ -1,11 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
     const things = sequelize.define("things", {
-        id_thing: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
         thing_name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -22,13 +17,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-    });
+    }, { timestamps: false });
 
     things.associate = (models) => {
-        things.hasMany(models.suborder, {
+        things.hasMany(models.suborders);
+    };
 
-        });
-        things.belongsTo(models.users)
-    }
     return things;
 }

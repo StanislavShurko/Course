@@ -12,14 +12,14 @@ const db = require('./models');
 const thingRouter = require('./routes/things');
 app.use('/things', thingRouter);
 
-const ordersRouter = require('./routes/order');
-app.use('/order', ordersRouter);
+const suborderRouter = require('./routes/suborders');
+app.use('/suborders', suborderRouter);
 
-const subordersRouter = require('./routes/suborder');
-app.use('/suborder', subordersRouter);
+const ordSupRouter = require('./routes/ordSup');
+app.use('/ordSup', ordSupRouter);
 
-const usersRouter = require('./routes/users');
-app.use('/users', usersRouter);
+const userRouter = require('./routes/users');
+app.use('/users', userRouter);
 
 db.sequelize.sync().then( () => {
     app.listen(3001, () => {
