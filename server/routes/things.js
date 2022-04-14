@@ -7,6 +7,14 @@ router.get('/', async (req, res) => {
     res.json(listOfThings);
 });
 
+router.get('/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    const user = await things.findAll({where: {
+        userIdUser: userId
+        }})
+    res.json(user);
+});
+
 router.post('/', async (req, res) => {
     const thing = req.body;
     await things.create(thing);

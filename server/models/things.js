@@ -22,6 +22,13 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-    })
+    });
+
+    things.associate = (models) => {
+        things.hasMany(models.suborder, {
+
+        });
+        things.belongsTo(models.users)
+    }
     return things;
 }
