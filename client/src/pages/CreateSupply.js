@@ -25,24 +25,27 @@ function CreateSupply() {
     };
 
     return (
+        <div>
+            <h1>Поставка</h1>
         <div className="create_order_page">
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema} >
                 <Form className="formContainer">
-                    <label>Product name: </label>
+                    <label>Назва продукту: </label>
                     <Field id="inputCreateSupply" name="thing_name" placeholder="Camponotus Nicobarensis..." autocomplete="off" />
                     <ErrorMessage name="thing_name" component="span"/>
-                    <label>Product type: </label>
+                    <label>Тип продукту: </label>
                     <Field id="inputCreateSupply" name="thing_type" placeholder="Ant..." autocomplete="off" />
                     <ErrorMessage name="thing_type" component="span"/>
-                    <label>Price: </label>
+                    <label>Ціна: </label>
                     <Field id="inputCreateSupply" name="thing_price" placeholder="1000..." autocomplete="off" />
                     <ErrorMessage name="thing_price" component="span"/>
-                    <label>Count: </label>
+                    <label>Кількість: </label>
                     <Field id="inputCreateSupply" name="thing_count" placeholder="12..." autocomplete="off" />
                     <ErrorMessage name="thing_count" component="span"/>
-                    <button type="submit">SUBMIT SUPPLY</button>
+                    <button type="submit">Підтвердити</button>
                 </Form>
             </Formik>
+        </div>
         </div>
     );
 }

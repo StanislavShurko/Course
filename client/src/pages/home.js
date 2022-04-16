@@ -16,10 +16,10 @@ function Home() {
         <div>
                 <table className={"things"}>
                     <thead>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Count</th>
-                    <th>Price</th>
+                    <th>Тип</th>
+                    <th>Назва</th>
+                    <th>Кількість</th>
+                    <th>Ціна</th>
                     </thead>
                     {listOfThings.map((value, key) => {
                         return (

@@ -13,4 +13,22 @@ router.post('/', async (req, res) => {
     res.json(user);
 });
 
+router.post('/login', async (req,res) => {
+   const { user_name, user_password } = req.body;
+
+   const user = await users.findOne({ where: {
+        user_name: user_name,
+       }});
+
+   if(!user) res.json({ error: "user does not exist" });
+
+   if (user_password === user.user_password) {
+       res.json("You logged in!")
+   } else {
+       res.json({ error: "Wrong username and password combination" })
+   }
+
+});
+
 module.exports = router;
+
