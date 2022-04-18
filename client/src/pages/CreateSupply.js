@@ -20,7 +20,14 @@ function CreateSupply() {
     })
 
     const onSubmit = (data) => {
-            axios.post("http://localhost:3001/things", data).then( (response)=> {
+            axios.post("http://localhost:3001/things", data, {
+                headers: {
+                    accessToken: sessionStorage.getItem("accessToken"),
+                }
+            }).then( (response)=> {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                }
             });
     };
 

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { users } = require('../models');
 
+const { sign} = require("jsonwebtoken")
+
 router.get('/', async (req, res) => {
     const listOfUsers = await things.findAll();
     res.json(listOfUsers);
@@ -22,11 +24,16 @@ router.post('/login', async (req,res) => {
 
    if(!user) res.json({ error: "user does not exist" });
 
-   if (user_password === user.user_password) {
-       res.json("You logged in!")
+   if (user_password === user.user_password ) {
+       const accessToken = sign({
+           user_name: user.user_name,
+           id: user.id,
+
+       }, "importantSecret" );
+       res.json(accessToken);
    } else {
-       res.json({ error: "Wrong username and password combination" })
-   }
+       res.json({ error: "Wrong username and password combination" });
+   };
 
 });
 
