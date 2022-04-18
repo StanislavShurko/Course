@@ -1,9 +1,17 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import * as yup from "yup";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function CreateSupply() {
+
+    const [last, setLast] = useState();
+
+    useEffect( () => {
+        axios.get("http://localhost:3001/things/last").then(res => {
+            setLast(res.data + 1);
+        });
+    }, [])
 
     const initialValues = {
         thing_name: "",
@@ -17,9 +25,10 @@ function CreateSupply() {
         thing_type: yup.string().min(1).max(30).required(),
         thing_price: yup.number().required() ,
         thing_count: yup.number().required().integer(),
-    })
+    });
 
     const onSubmit = (data) => {
+
             axios.post("http://localhost:3001/things", data, {
                 headers: {
                     accessToken: sessionStorage.getItem("accessToken"),
@@ -29,6 +38,22 @@ function CreateSupply() {
                     console.log(response.data.error);
                 }
             });
+
+            axios.post('http://localhost:3001/suborders', {
+                os_count: data.thing_count,
+                ordSupId: 1,
+                thingId: last,
+            },{
+                headers: {
+                    accessToken: sessionStorage.getItem("accessToken"),
+                }
+            }).then( (response)=> {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                }
+            });
+
+            console.log(last);
     };
 
     return (

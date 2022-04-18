@@ -14,4 +14,11 @@ router.post('/', validateToken, async (req, res) => {
     res.json(thing);
 });
 
+router.get('/last', async (req,res) => {
+    const last = await things.findOne({
+        order: [[ 'id', 'DESC' ]]
+    })
+    res.json(last.id);
+});
+
 module.exports = router;

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { users } = require('../models');
-
-const { sign} = require("jsonwebtoken")
+const { sign } = require("jsonwebtoken")
 
 router.get('/', async (req, res) => {
     const listOfUsers = await things.findAll();

@@ -24,7 +24,7 @@ function Registr() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/users", data).then( (response)=> {
-            history.push('/users/login');
+            history.push('/login');
         });
     };
 
