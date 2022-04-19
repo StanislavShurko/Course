@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import * as yup from "yup";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 function Login() {
 
-    let history = useHistory()
+    let history = useHistory();
 
     const initialValues = {
         user_name: "",
@@ -19,14 +19,19 @@ function Login() {
     });
 
     const onSubmit = (data) => {
+
         axios.post("http://localhost:3001/users/login", data).then( (response)=> {
             if (response.data.error) {
                 alert(response.data.error)
             } else {
                 sessionStorage.setItem("accessToken", response.data);
+                sessionStorage.setItem('login', data.user_name);
+                sessionStorage.setItem('password', data.user_password);
                 history.push('/')
             };
         });
+
+        console.log(data);
     };
 
     return (

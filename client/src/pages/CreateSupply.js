@@ -7,6 +7,7 @@ function CreateSupply() {
 
     const [last, setLast] = useState();
     const [ordSupId, setOrdSupId] = useState();
+    const [userId, setUserId] = useState();
 
     useEffect( () => {
         axios.get("http://localhost:3001/things/last").then(res => {
@@ -14,6 +15,14 @@ function CreateSupply() {
         });
         axios.get("http://localhost:3001/ordSup/last").then(res => {
             setOrdSupId(res.data);
+        });
+        axios.get('http://localhost:3001/users/id', {
+            params: {
+                username: sessionStorage.getItem('login'),
+                password: sessionStorage.getItem('password'),
+            }
+        },).then(res => {
+            setUserId(res.data);
         });
     }, [])
 
@@ -34,7 +43,7 @@ function CreateSupply() {
     const createSupply = () => {
         axios.post('http://localhost:3001/ordSup', {
             ordSup_type: "Supply",
-            userId: 1,
+            userId: userId,
         },{
             headers: {
                 accessToken: sessionStorage.getItem("accessToken"),

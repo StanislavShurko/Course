@@ -4,7 +4,7 @@ const { users } = require('../models');
 const { sign } = require("jsonwebtoken")
 
 router.get('/', async (req, res) => {
-    const listOfUsers = await things.findAll();
+    const listOfUsers = await users.findAll();
     res.json(listOfUsers);
 });
 
@@ -34,6 +34,16 @@ router.post('/login', async (req,res) => {
        res.json({ error: "Wrong username and password combination" });
    };
 
+});
+
+router.get('/id', async (req, res) => {
+    const listOfUsers = await users.findOne({
+        where: {
+            user_name: req.query.username,
+            user_password: req.query.password,
+        }
+    });
+    res.json(listOfUsers.id);
 });
 
 module.exports = router;
