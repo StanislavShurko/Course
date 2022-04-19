@@ -6,10 +6,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 function CreateSupply() {
 
     const [last, setLast] = useState();
+    const [ordSupId, setOrdSupId] = useState();
 
     useEffect( () => {
         axios.get("http://localhost:3001/things/last").then(res => {
             setLast(res.data + 1);
+        });
+        axios.get("http://localhost:3001/ordSup/last").then(res => {
+            setOrdSupId(res.data);
         });
     }, [])
 
@@ -26,6 +30,23 @@ function CreateSupply() {
         thing_price: yup.number().required() ,
         thing_count: yup.number().required().integer(),
     });
+
+    const createSupply = () => {
+        axios.post('http://localhost:3001/ordSup', {
+            ordSup_type: "Supply",
+            userId: 1,
+        },{
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            }
+        }).then( (response)=> {
+            if (response.data) {
+                console.log(response.data.userId);
+            }
+        });
+
+        setOrdSupId(ordSupId + 1);
+    }
 
     const onSubmit = (data) => {
 
@@ -52,8 +73,6 @@ function CreateSupply() {
                     console.log(response.data.error);
                 }
             });
-
-            console.log(last);
     };
 
     return (
@@ -77,6 +96,10 @@ function CreateSupply() {
                     <button type="submit">Підтвердити</button>
                 </Form>
             </Formik>
+            <div>
+                <div id='inputCreateSupply'>Поставка №: {ordSupId}</div>
+                <button type='submit' onClick={createSupply}> Нова поставка</button>
+            </div>
         </div>
         </div>
     );
