@@ -4,17 +4,34 @@ import Home from "./pages/home";
 import CreateSupply from "./pages/CreateSupply";
 import Login from "./pages/Login";
 import Registr from "./pages/Registr";
+import {AuthContext} from "./helpers/AuthContext";
+import {useEffect, useState} from "react";
 
 function App() {
 
+    const [authState, setAuthState] = useState(false);
+
+    useEffect(() => {
+        if (sessionStorage.getItem('accessToken')) {
+            setAuthState(true);
+        }
+    }, [])
+
+
   return (
     <div className="App">
+        <AuthContext.Provider value={{authState, setAuthState}}>
       <Router>
           <div className="navbar">
               <Link to="/"> Товар</Link>
               <Link to="/supply"> Поставка</Link>
-              <Link to="/login"> Увійти</Link>
-              <Link to="/registration"> Реєстрація</Link>
+              { !authState && (
+                  <>
+                  <Link to="/login"> Увійти</Link>
+                  <Link to="/registration"> Реєстрація</Link>
+                  </>
+                  )
+              }
           </div>
           <Switch>
               <Route path="/" exact component={Home}/>
@@ -23,6 +40,7 @@ function App() {
               <Route path="/registration" exact component={Registr}/>
           </Switch>
       </Router>
+        </AuthContext.Provider>
     </div>
   );
 }

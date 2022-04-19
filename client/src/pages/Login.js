@@ -1,12 +1,15 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import * as yup from "yup";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
+import {AuthContext} from "../helpers/AuthContext";
 
 function Login() {
 
     let history = useHistory();
+
+    const {setAuthState} = useContext(AuthContext);
 
     const initialValues = {
         user_name: "",
@@ -27,6 +30,7 @@ function Login() {
                 sessionStorage.setItem("accessToken", response.data);
                 sessionStorage.setItem('login', data.user_name);
                 sessionStorage.setItem('password', data.user_password);
+                setAuthState(true);
                 history.push('/')
             };
         });
