@@ -107,7 +107,7 @@ function CreateSupply() {
             </Formik>
             <div>
                 <div id='inputCreateSupply'>Поставка №: {ordSupId}</div>
-                <button type='submit' onClick={createSupply}> Нова поставка</button>
+                <button type='submit' className='createSupply' onClick={createSupply}> Нова поставка</button>
             </div>
         </div>
         </div>

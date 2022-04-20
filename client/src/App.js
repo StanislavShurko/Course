@@ -17,6 +17,12 @@ function App() {
         }
     }, [])
 
+    const logout = () => {
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('login');
+        sessionStorage.removeItem('password');
+        setAuthState(false);
+    };
 
   return (
     <div className="App">
@@ -25,12 +31,17 @@ function App() {
           <div className="navbar">
               <Link to="/"> Товар</Link>
               <Link to="/supply"> Поставка</Link>
-              { !authState && (
+              { !authState ? (
                   <>
                   <Link to="/login"> Увійти</Link>
                   <Link to="/registration"> Реєстрація</Link>
                   </>
-                  )
+                  ) : (
+                      <div className='loggedInContainer'>
+                      <Link>User: {sessionStorage.getItem('login')}</Link>
+                      <button className='buttonLogout' onClick={logout}> Вийти</button>
+                      </div>
+              )
               }
           </div>
           <Switch>
