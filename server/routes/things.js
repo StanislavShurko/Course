@@ -19,14 +19,40 @@ router.post('/', validateToken, async (req, res) => {
         }
     });
 
-    if (thing.thing_name === thingState.thing_name && thing.thing_type === thingState.thing_type && thing.thing_price === thingState.thing_price) {
-        thingState.thing_count = thingState.thing_count + thing.thing_count;
-        thingState.save();
-        res.json(thingState)
+        if (thingState && thing.thing_name === thingState.thing_name && thing.thing_type === thingState.thing_type && thing.thing_price === thingState.thing_price) {
+            thingState.thing_count = thingState.thing_count + thing.thing_count;
+            thingState.save();
+            res.json("Додано до " + thingState.thing_name)
+        } else {
+            await things.create(thing);
+            res.json("Створено новый товар");
+        }
+
+});
+
+router.post('/order', validateToken ,async (req, res) => {
+    const order = req.body;
+
+    const orderState = await things.findOne({
+        where : {
+            thing_name: order.thing_name,
+            thing_type: order.thing_type,
+            thing_price: order.thing_price,
+        }
+    });
+
+    if (orderState && order.thing_name === orderState.thing_name && order.thing_type === orderState.thing_type && order.thing_price === orderState.thing_price) {
+        if (orderState.thing_count >= order.thing_count) {
+            orderState.thing_count = orderState.thing_count - order.thing_count;
+            res.json("Відправлено замовлення " + orderState.thing_name + ". В кількості: " + order.thing_count)
+        } else {
+            res.json("Такої кількості немає на складі")
+        }
+        orderState.save();
     } else {
-        await things.create(thing);
-        res.json(thing);
+        res.json("Такого товару немає на складі");
     }
+
 });
 
 router.get('/last', async (req,res) => {

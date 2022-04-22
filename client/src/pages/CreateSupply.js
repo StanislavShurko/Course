@@ -5,14 +5,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function CreateSupply() {
 
-    const [last, setLast] = useState();
-    const [ordSupId, setOrdSupId] = useState();
+    const [id, setId] = useState();
+    const [ordSupId, setOrdSupId] = useState(0);
     const [userId, setUserId] = useState();
 
     useEffect( () => {
-        axios.get("http://localhost:3001/things/last").then(res => {
-            setLast(res.data + 1);
-        });
         axios.get("http://localhost:3001/ordSup/last").then(res => {
             setOrdSupId(res.data);
         });
@@ -41,6 +38,7 @@ function CreateSupply() {
     });
 
     const createSupply = () => {
+
         axios.post('http://localhost:3001/ordSup', {
             ordSup_type: "Supply",
             userId: userId,
@@ -49,39 +47,43 @@ function CreateSupply() {
                 accessToken: sessionStorage.getItem("accessToken"),
             }
         }).then( (response)=> {
-            if (response.data) {
-                console.log(response.data.userId);
+            if (response.data.error) {
+                console.log(response.data.error);
             }
         });
 
         setOrdSupId(ordSupId + 1);
     }
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
-            axios.post("http://localhost:3001/things", data, {
+            data.thing_count = Number(data.thing_count);
+            data.thing_price = Number(data.thing_price);
+
+           await axios.post("http://localhost:3001/things", data, {
                 headers: {
                     accessToken: sessionStorage.getItem("accessToken"),
                 }
-            }).then( (response)=> {
-                if (response.data.error) {
-                    console.log(response.data.error);
+           }).then( (response)=> {
+                if (response.data) {
+                    alert(response.data);
                 }
-            });
+           });
 
-            axios.post('http://localhost:3001/suborders', {
-                os_count: data.thing_count,
-                ordSupId: 1,
-                thingId: last,
-            },{
-                headers: {
-                    accessToken: sessionStorage.getItem("accessToken"),
-                }
-            }).then( (response)=> {
-                if (response.data.error) {
-                    console.log(response.data.error);
-                }
-            });
+        await axios.post('http://localhost:3001/suborders', {
+            data,
+            os_count: data.thing_count,
+            ordSupId: ordSupId,
+        },{
+            headers: {
+                accessToken: sessionStorage.getItem("accessToken"),
+            }
+        }).then( (response)=> {
+            if (response.data.error) {
+                console.log(response.data.error);
+            }
+        });
+
     };
 
     return (
@@ -106,7 +108,7 @@ function CreateSupply() {
                 </Form>
             </Formik>
             <div>
-                <div id='inputCreateSupply'>Поставка №: {ordSupId}</div>
+                <div id='inputCreateSupply'> Поставка/Замовлення №: {ordSupId}</div>
                 <button type='submit' className='createSupply' onClick={createSupply}> Нова поставка</button>
             </div>
         </div>

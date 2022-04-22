@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import CreateSupply from "./pages/CreateSupply";
 import Login from "./pages/Login";
 import Registr from "./pages/Registr";
+import CreateOrd from "./pages/CreateOrd";
 import {AuthContext} from "./helpers/AuthContext";
 import {useEffect, useState} from "react";
 
@@ -29,13 +30,14 @@ function App() {
         <AuthContext.Provider value={{authState, setAuthState}}>
       <Router>
           <div className="navbar">
+              <Link to='/order'> Продажа</Link>
               <Link to="/"> Товар</Link>
               <Link to="/supply"> Поставка</Link>
               { !authState ? (
-                  <>
+                  <div className="loggedInContainer" >
                   <Link to="/login"> Увійти</Link>
                   <Link to="/registration"> Реєстрація</Link>
-                  </>
+                  </div>
                   ) : (
                       <div className='loggedInContainer'>
                       <Link>User: {sessionStorage.getItem('login')}</Link>
@@ -45,6 +47,7 @@ function App() {
               }
           </div>
           <Switch>
+              <Route path="/order" exact component={CreateOrd}></Route>
               <Route path="/" exact component={Home}/>
               <Route path="/supply" exact component={CreateSupply}/>
               <Route path="/login" exact component={Login}/>
