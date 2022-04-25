@@ -1,16 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { suborders, things} = require('../models');
+const { suborders, things, ordSup} = require('../models');
 const {validateToken} = require("../middlewares/AuthMiddleware");
 
-router.get('/:thingId', async (req, res) => {
-    const thingId = req.params.id;
-    const things = await suborders.findAll({
-        where: {
-            thingId: thingId,
-        }
-    });
-    res.json(things);
+router.get('/sold', async (req, res) => {
+    const listOfSupply = await suborders.findAll()
+    res.json(listOfSupply);
 });
 
 router.post('/', validateToken, async (req,res) => {

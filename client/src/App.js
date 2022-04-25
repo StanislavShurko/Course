@@ -40,7 +40,7 @@ function App() {
                   </div>
                   ) : (
                       <div className='loggedInContainer'>
-                      <Link>User: {sessionStorage.getItem('login')}</Link>
+                      <Link>Користувач: {sessionStorage.getItem('login')}</Link>
                       <button className='buttonLogout' onClick={logout}> Вийти</button>
                       </div>
               )

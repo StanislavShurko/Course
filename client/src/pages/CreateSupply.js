@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 function CreateSupply() {
 
-    const [id, setId] = useState();
     const [ordSupId, setOrdSupId] = useState(0);
     const [userId, setUserId] = useState();
 
@@ -107,7 +106,7 @@ function CreateSupply() {
                     <button type="submit">Підтвердити</button>
                 </Form>
             </Formik>
-            <div>
+            <div className="createOrdSup">
                 <div id='inputCreateSupply'> Поставка/Замовлення №: {ordSupId}</div>
                 <button type='submit' className='createSupply' onClick={createSupply}> Нова поставка</button>
             </div>

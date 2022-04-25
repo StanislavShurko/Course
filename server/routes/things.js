@@ -8,6 +8,12 @@ router.get('/', async (req, res) => {
     res.json(listOfThings);
 });
 
+router.get('/byId/:id', async (req, res) => {
+    const id = req.params.id;
+    const post = await things.findByPk(id);
+    res.json(post.thing_name);
+});
+
 router.post('/', validateToken, async (req, res) => {
     const thing = req.body;
 
@@ -46,7 +52,7 @@ router.post('/order', validateToken ,async (req, res) => {
             orderState.thing_count = orderState.thing_count - order.thing_count;
             res.json("Відправлено замовлення " + orderState.thing_name + ". В кількості: " + order.thing_count)
         } else {
-            res.json("Такої кількості немає на складі")
+            res.json("Такої кількості немає на складі:" + orderState.thing_count)
         }
         orderState.save();
     } else {
@@ -60,6 +66,15 @@ router.get('/last', async (req,res) => {
         order: [[ 'id', 'DESC' ]]
     })
     res.json(last.id);
+});
+
+router.get('/total', async (req, res) => {
+    const obj = await things.findAll();
+    let total = 0;
+    for (let i = 0; i < obj.length; i++) {
+        total += Number(obj[i].thing_count) * Number(obj[i].thing_price);
+    }
+    res.json(total);
 });
 
 module.exports = router;

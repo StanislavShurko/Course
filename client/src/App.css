@@ -1,25 +1,9 @@
 .App {
   text-align: center;
 }
-.things {
-  border-collapse: collapse;
-  margin: auto;
-}
 
-.box {
-  border: black;
-  border-style: solid;
-  border-width: medium;
-}
 
-td {
-  border: solid 1px;
-  padding: 5px;
-  text-align: center;
-}
-a{
-  margin: 20px;
-}
+
 
 /* CREATE POST PAGE CSS */
 
@@ -29,6 +13,7 @@ a{
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: verdana, 'open sans', sans-serif;
 }
 .formContainer {
   display: flex;
@@ -39,6 +24,7 @@ a{
   padding: 20px;
   border: 5px solid darkslategrey;
   border-radius: 5px;
+  font-family: verdana, 'open sans', sans-serif;
 }
 
 .formContainer #inputCreateSupply {
@@ -82,6 +68,7 @@ span {
   margin-left: 20px;
   text-decoration: none;
   color: white;
+  font-family: verdana, 'open sans', sans-serif;
 }
 
 .navbar .loggedInContainer {
@@ -90,6 +77,8 @@ span {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-family: verdana, 'open sans', sans-serif;
+  margin-right: 10px;
 }
 
 .buttonLogout {
@@ -113,6 +102,7 @@ span {
           0 3px 5px rgba(0,1,6,.5),
           0 0 1px 1px rgba(0,1,6,.2);
   transition: .2s ease-in-out;
+  font-family: verdana, 'open sans', sans-serif;
 }
 .buttonLogout:hover:not(:active) {
   background: linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134);
@@ -144,3 +134,76 @@ span {
   margin: 10px;
   color: white;
 }
+
+.filter_parent {
+  height: 140px;
+}
+
+.filter {
+  height: 100px;
+  display: inline-block;
+  width: 50%;
+}
+
+.table{
+  border: 1px solid #eee;
+  table-layout: fixed;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.table th {
+  font-weight: bold;
+  font-family: verdana, 'open sans', sans-serif;
+  padding: 5px;
+  background: #efefef;
+  border: 1px solid #dddddd;
+}
+.table td{
+  padding: 5px 10px;
+  border: 1px solid #eee;
+  text-align: center;
+  font-family: verdana, 'open sans', sans-serif;
+}
+.table tbody tr:nth-child(odd){
+  background: #fff;
+}
+.table tbody tr:nth-child(even){
+  background: #F7F7F7;
+}
+
+.inp {
+  display:block;
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+  border-radius:10px;
+  border: 1px solid black;
+  transition: .3s border-color;
+}
+.inp:hover {
+  border: 1px solid #aaa;
+}
+
+.total_div {
+  border-radius: 5px;
+  color: #fff;
+  font-family: verdana, 'open sans', sans-serif;
+  padding: 10px 14px 10px 44px;
+  position: relative;
+  box-shadow: 0px 1px 5px #999;
+  background-color: darkslategrey;
+}
+
+h1 {
+  font-family: verdana, 'open sans', sans-serif;
+}
+
+.createOrdSup {
+  font-family: verdana, 'open sans', sans-serif;
+  margin-left: 10px;
+}
+
+.tableOrd {
+  margin-top: 30px;
+}
+
