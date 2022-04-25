@@ -6,5 +6,9 @@ module.exports = ( sequelize, DataTypes ) => {
        },
     }, { timestamps: false });
 
+    suborders.associate = (models) => {
+        suborders.belongsTo(models.things);
+    };
+
     return suborders ;
 }

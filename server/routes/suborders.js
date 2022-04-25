@@ -4,7 +4,12 @@ const { suborders, things, ordSup} = require('../models');
 const {validateToken} = require("../middlewares/AuthMiddleware");
 
 router.get('/sold', async (req, res) => {
-    const listOfSupply = await suborders.findAll()
+    const listOfSupply = await things.findAll({include: suborders})
+    res.json(listOfSupply);
+});
+
+router.get('/sold2', async (req, res) => {
+    const listOfSupply = await suborders.findAll({include: things})
     res.json(listOfSupply);
 });
 

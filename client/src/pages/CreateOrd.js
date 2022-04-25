@@ -37,8 +37,9 @@ function CreateOrd() {
         },).then(res => {
             setUserId(res.data);
         });
-        axios.get("http://localhost:3001/suborders/sold").then( (response)=> {
+        axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
             setListOfThings(response.data);
+            console.log(response.data)
         });
     }, [])
 
@@ -150,7 +151,7 @@ function CreateOrd() {
                         <tbody>
                         <tr>
                             <td>{value.ordSupId}</td>
-                            <td>{value.thingId}</td>
+                            <td>{value.thing.thing_name}</td>
                             <td>{value.os_count}</td>
                         </tr>
                         </tbody>
