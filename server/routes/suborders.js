@@ -9,7 +9,7 @@ router.get('/sold', async (req, res) => {
 });
 
 router.get('/sold2', async (req, res) => {
-    const listOfSupply = await suborders.findAll({include: things})
+    const listOfSupply = await suborders.findAll({include: [things, ordSup]})
     res.json(listOfSupply);
 });
 

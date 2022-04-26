@@ -7,6 +7,8 @@ function CreateSupply() {
 
     const [ordSupId, setOrdSupId] = useState(0);
     const [userId, setUserId] = useState();
+    const [direction, setDirection] = useState(true);
+    const [listOfThings, setListOfThings] = useState([]);
 
     useEffect( () => {
         axios.get("http://localhost:3001/ordSup/last").then(res => {
@@ -19,6 +21,9 @@ function CreateSupply() {
             }
         },).then(res => {
             setUserId(res.data);
+        });
+        axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfThings(response.data);
         });
     }, [])
 
@@ -54,7 +59,7 @@ function CreateSupply() {
         setOrdSupId(ordSupId + 1);
     }
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data, onSub) => {
 
             data.thing_count = Number(data.thing_count);
             data.thing_price = Number(data.thing_price);
@@ -82,8 +87,34 @@ function CreateSupply() {
                 console.log(response.data.error);
             }
         });
+        axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfThings(response.data);
+        });
 
+        onSub.resetForm();
     };
+
+    const sortData = (field) => {
+        const copyData = listOfThings.concat();
+
+        let sortData;
+
+        if (direction) {
+            sortData = copyData.sort(
+                (a, b) => {
+                    return(a[field] > b[field] ? 1 : -1)
+                }
+            );
+        } else {
+            sortData = copyData.sort(
+                (a, b) => {
+                    return(a[field] < b[field] ? 1 : -1)
+                }
+            );
+        };
+        setDirection(!direction);
+        setListOfThings(sortData)
+    }
 
     return (
         <div>
@@ -111,6 +142,31 @@ function CreateSupply() {
                 <button type='submit' className='createSupply' onClick={createSupply}> Нова поставка</button>
             </div>
         </div>
+            <div className="tableOrd">
+            <div className="total_div">
+                <label className="total_label">Продано за весь час</label>
+            </div>
+            <table className={"table"}>
+                <thead>
+                <th onClick={ () => {sortData("ordSupId")}}>Номер замовлення/поставки</th>
+                <th onClick={ () => {sortData("ordSupId")}}>Номер замовлення</th>
+                <th onClick={ () => {sortData("thingId")}}>Товар</th>
+                <th onClick={ () => {sortData("os_count")}}>Кількість</th>
+                </thead>
+                {listOfThings.map((value, key) => {
+                    return (
+                        <tbody>
+                        <tr>
+                            <td>{value.ordSupId}</td>
+                            <td>{value.ordSup.ordSup_type}</td>
+                            <td>{value.thing.thing_name}</td>
+                            <td>{value.os_count}</td>
+                        </tr>
+                        </tbody>
+                    );
+                })}
+            </table>
+            </div>
         </div>
     );
 }

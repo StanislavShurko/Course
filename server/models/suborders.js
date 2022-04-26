@@ -8,6 +8,7 @@ module.exports = ( sequelize, DataTypes ) => {
 
     suborders.associate = (models) => {
         suborders.belongsTo(models.things);
+        suborders.belongsTo(models.ordSup)
     };
 
     return suborders ;

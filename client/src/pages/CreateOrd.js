@@ -39,7 +39,6 @@ function CreateOrd() {
         });
         axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
             setListOfThings(response.data);
-            console.log(response.data)
         });
     }, [])
 
@@ -60,7 +59,7 @@ function CreateOrd() {
         setOrdSupId(ordSupId + 1);
     }
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data, onSub) => {
         data.thing_count = Number(data.thing_count);
         data.thing_price = Number(data.thing_price);
 
@@ -86,6 +85,12 @@ function CreateOrd() {
                 console.log(response.data.error);
             }
         });
+
+        axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfThings(response.data);
+        });
+
+        onSub.resetForm();
     };
 
     const sortData = (field) => {
@@ -133,7 +138,7 @@ function CreateOrd() {
                 </Formik>
                 <div className="createOrdSup">
                     <div id='inputCreateSupply'> Поставка/Замовлення №: {ordSupId}</div>
-                    <button type='submit' className='createSupply' onClick={createSupply}> Нова поставка</button>
+                    <button type='submit' className='createSupply' onClick={createSupply}> Нове замовлення</button>
                 </div>
             </div>
             <div className="tableOrd">
@@ -142,7 +147,8 @@ function CreateOrd() {
             </div>
             <table className={"table"}>
                 <thead>
-                <th onClick={ () => {sortData("ordSupId")}}>Номер замовлення</th>
+                <th onClick={ () => {sortData("ordSupId")}}>Номер замовлення/поставки</th>
+                <th onClick={ () => {sortData("ordSup_type")}}>Замовлення/поставка</th>
                 <th onClick={ () => {sortData("thingId")}}>Товар</th>
                 <th onClick={ () => {sortData("os_count")}}>Кількість</th>
                 </thead>
@@ -151,6 +157,7 @@ function CreateOrd() {
                         <tbody>
                         <tr>
                             <td>{value.ordSupId}</td>
+                            <td>{value.ordSup.ordSup_type}</td>
                             <td>{value.thing.thing_name}</td>
                             <td>{value.os_count}</td>
                         </tr>
