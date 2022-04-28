@@ -137,6 +137,7 @@ span {
 
 .filter_parent {
   height: 140px;
+  margin-bottom: 450px;
 }
 
 .filter {
@@ -205,5 +206,46 @@ h1 {
 
 .tableOrd {
   margin-top: 30px;
+}
+
+.btn {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 20px;
+  margin: 30px 15px 15px 0;
+  font-family: verdana, 'open sans', sans-serif;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #fff;
+  background-color: darkslategrey;
+  box-shadow: 0 2px #21487f;
+  cursor: pointer;
+  user-select: none;
+  appearance: none;
+  touch-action: manipulation;
+  vertical-align: top;
+}
+.btn:hover {
+  background-color: darkolivegreen;
+}
+.btn:active {
+  background-color: #2f599e !important;
+}
+.btn:focus-visible {
+  box-shadow: 0 0 0 3px lightskyblue;
+}
+.btn:disabled {
+  background-color: #6c87b5;
+  pointer-events: none;
+}
+
+label {
+  font-family: verdana, 'open sans', sans-serif;
 }
 

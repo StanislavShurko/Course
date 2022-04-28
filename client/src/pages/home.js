@@ -6,7 +6,12 @@ function Home() {
 
     const [listOfThings, setListOfThings] = useState([]);
     const [direction, setDirection] = useState(true);
-    const [name, setName] = useState();
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+    const [countFrom, setCountFrom] = useState();
+    const [countDo, setCountDo] = useState();
+    const [priceDo, setPriceDo] = useState();
+    const [priceFrom, setPriceFrom] = useState();
     const [total, setTotal] = useState();
 
     useEffect(() => {
@@ -18,19 +23,110 @@ function Home() {
         });
     },[]);
 
-    useEffect( () => {
-        getFilteredThings();
-    }, [name]);
-
     const getFilteredThings = () => {
-        if (!name) {
+        if (!name && !type && !priceDo && !countFrom && !countDo && !priceFrom) {
             setListOfThings(axios.get("http://localhost:3001/things").then( (response)=> {
                 setListOfThings(response.data);
             }));
         }
         setListOfThings(listOfThings.filter(
                 el=>{
-                    return el['thing_name'].toLowerCase().includes(name.toLowerCase());
+                    if (!priceDo && !countFrom && !countDo && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase());
+                    }
+                    if (!priceDo && !countFrom && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] < countDo;
+                    }
+                    if (!priceDo && !countDo && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] > countFrom;
+                    }
+                    if (!countFrom && !countDo && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_price'] < priceDo;
+                    }
+                    if (!countFrom && !countDo && !priceDo) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!priceDo && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] > countFrom &&
+                            el['thing_count'] < countDo;
+                    }
+                    if (!countFrom && !countDo) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!countDo && !priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_count'] > countFrom;
+                    }
+                    if (!priceDo && !countFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!priceDo && !countDo) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] > countFrom &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!priceFrom && !countFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] < priceDo;
+                    }
+                    if (!priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_count'] > countFrom;
+                    }
+                    if (!countFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!countDo) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] > countFrom &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (!priceDo) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_count'] > countFrom &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] > priceFrom;
+                    }
+                    if (priceDo && countFrom && countDo && priceFrom) {
+                        return el['thing_name'].toLowerCase().includes(name.toLowerCase()) &&
+                            el['thing_type'].toLowerCase().includes(type.toLowerCase()) &&
+                            el['thing_price'] < priceDo &&
+                            el['thing_count'] > countFrom &&
+                            el['thing_count'] < countDo &&
+                            el['thing_price'] > priceFrom;
+                    }
                 }
             )
         )
@@ -63,13 +159,51 @@ function Home() {
             <div className="filter_parent">
                 <h1> Фільтр</h1>
                 <div className="filter">
+                    <label>Тип</label>
                     <input
-                        type="text"
+                        className={"inp"}
+                        onChange={(event) => {
+                            setType(event.target.value);
+                        }}
+                    />
+                    <label>Назва</label>
+                    <input
                         className={"inp"}
                         onChange={(event) => {
                             setName(event.target.value);
                         }}
                     />
+                    <label>Кількість (більше)</label>
+                    <input
+                        className={"inp"}
+                        onChange={(event) => {
+                            setCountFrom(event.target.value);
+                        }}
+                    />
+                    <label>Кількість (до)</label>
+                    <input
+                        className={"inp"}
+                        onChange={(event) => {
+                            setCountDo(event.target.value);
+                        }}
+                    />
+                    <label>Ціна (більше)</label>
+                    <input
+                        className={"inp"}
+                        onChange={(event) => {
+                            setPriceFrom(event.target.value);
+                        }}
+                    />
+                    <label>Ціна (до)</label>
+                    <input
+                        className={"inp"}
+                        onChange={(event) => {
+                            setPriceDo(event.target.value);
+                        }}
+                    />
+                </div>
+                <div>
+                    <button className="btn" onClick={getFilteredThings}>Підтвердити</button>
                 </div>
             </div>
             <div className="total_div">
