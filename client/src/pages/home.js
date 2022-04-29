@@ -23,6 +23,10 @@ function Home() {
         });
     },[]);
 
+    useEffect(() => {
+        getFilteredThings();
+    },[name, type, countDo, countFrom, priceFrom, priceDo]);
+
     const getFilteredThings = () => {
         if (!name && !type && !priceDo && !countFrom && !countDo && !priceFrom) {
             setListOfThings(axios.get("http://localhost:3001/things").then( (response)=> {
@@ -130,6 +134,7 @@ function Home() {
                 }
             )
         )
+
     };
 
     const sortData = (field) => {
@@ -201,9 +206,6 @@ function Home() {
                             setPriceDo(event.target.value);
                         }}
                     />
-                </div>
-                <div>
-                    <button className="btn" onClick={getFilteredThings}>Підтвердити</button>
                 </div>
             </div>
             <div className="total_div">

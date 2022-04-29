@@ -137,7 +137,7 @@ span {
 
 .filter_parent {
   height: 140px;
-  margin-bottom: 280px;
+  margin-bottom: 240px;
 }
 
 .filter {
@@ -265,8 +265,4 @@ input {
 
 td {
   width: 100%;
-}
-
-.table_mini td {
-  width: fit-content;
 }
