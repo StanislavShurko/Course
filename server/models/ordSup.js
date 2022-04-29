@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
     ordSup.associate = ( models ) => {
         ordSup.hasMany( models.suborders );
+        ordSup.belongsTo( models.users );
     };
 
     return ordSup;

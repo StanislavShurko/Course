@@ -157,45 +157,45 @@ function Home() {
     return(
         <div>
             <div className="filter_parent">
-                <h1> Фільтр</h1>
+                <h1> Фільтри</h1>
                 <div className="filter">
-                    <label>Тип</label>
                     <input
+                        placeholder="Тип"
                         className={"inp"}
                         onChange={(event) => {
                             setType(event.target.value);
                         }}
                     />
-                    <label>Назва</label>
                     <input
+                        placeholder="Назва"
                         className={"inp"}
                         onChange={(event) => {
                             setName(event.target.value);
                         }}
                     />
-                    <label>Кількість (більше)</label>
                     <input
+                        placeholder="Кількість (більше)"
                         className={"inp"}
                         onChange={(event) => {
                             setCountFrom(event.target.value);
                         }}
                     />
-                    <label>Кількість (до)</label>
                     <input
+                        placeholder="Кількість (до)"
                         className={"inp"}
                         onChange={(event) => {
                             setCountDo(event.target.value);
                         }}
                     />
-                    <label>Ціна (більше)</label>
                     <input
+                        placeholder="Ціна (більше)"
                         className={"inp"}
                         onChange={(event) => {
                             setPriceFrom(event.target.value);
                         }}
                     />
-                    <label>Ціна (до)</label>
                     <input
+                        placeholder="Ціна (до)"
                         className={"inp"}
                         onChange={(event) => {
                             setPriceDo(event.target.value);

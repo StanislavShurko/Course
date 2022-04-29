@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { suborders, things, ordSup} = require('../models');
+const { suborders, things, ordSup, users} = require('../models');
 const {validateToken} = require("../middlewares/AuthMiddleware");
 
 router.get('/sold', async (req, res) => {
@@ -12,6 +12,12 @@ router.get('/sold2', async (req, res) => {
     const listOfSupply = await suborders.findAll({include: [things, ordSup]})
     res.json(listOfSupply);
 });
+
+router.get('/sold3', async (req, res) => {
+    const listOfSupply = await ordSup.findAll({include: [suborders, users]})
+    res.json(listOfSupply);
+});
+
 
 router.post('/', validateToken, async (req,res) => {
     const thing = req.body.data;

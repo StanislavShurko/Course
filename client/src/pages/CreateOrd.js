@@ -3,6 +3,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
+
 function CreateOrd() {
 
     const initialValues = {
@@ -23,6 +24,7 @@ function CreateOrd() {
     const [userId, setUserId] = useState();
     const [direction, setDirection] = useState(true);
     const [listOfThings, setListOfThings] = useState([]);
+    const [listofSuborders, setListOfSuborders] = useState([]);
 
 
     useEffect( () => {
@@ -38,6 +40,9 @@ function CreateOrd() {
             setUserId(res.data);
         });
         axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfSuborders(response.data);
+        });
+        axios.get("http://localhost:3001/suborders/sold3").then( (response)=> {
             setListOfThings(response.data);
         });
     }, [])
@@ -57,6 +62,12 @@ function CreateOrd() {
         });
 
         setOrdSupId(ordSupId + 1);
+        axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfSuborders(response.data);
+        });
+        axios.get("http://localhost:3001/suborders/sold3").then( (response)=> {
+            setListOfThings(response.data);
+        });
     }
 
     const onSubmit = async (data, onSub) => {
@@ -87,6 +98,9 @@ function CreateOrd() {
         });
 
         axios.get("http://localhost:3001/suborders/sold2").then( (response)=> {
+            setListOfSuborders(response.data);
+        });
+        axios.get("http://localhost:3001/suborders/sold3").then( (response)=> {
             setListOfThings(response.data);
         });
 
@@ -147,19 +161,39 @@ function CreateOrd() {
             </div>
             <table className={"table"}>
                 <thead>
-                <th onClick={ () => {sortData("ordSupId")}}>Номер замовлення/поставки</th>
-                <th onClick={ () => {sortData("ordSup_type")}}>Замовлення/поставка</th>
-                <th onClick={ () => {sortData("thingId")}}>Товар</th>
-                <th onClick={ () => {sortData("os_count")}}>Кількість</th>
+                <th onClick={ () => {sortData("ordSup_type")}}>Тип замовлення/поставки</th>
+                <th onClick={ () => {sortData("createdAt")}}>Дата</th>
+                <th onClick={ () => {sortData("user_name")}}>Користувач</th>
                 </thead>
                 {listOfThings.map((value, key) => {
                     return (
                         <tbody>
-                        <tr>
-                            <td>{value.ordSupId}</td>
-                            <td>{value.ordSup.ordSup_type}</td>
-                            <td>{value.thing.thing_name}</td>
-                            <td>{value.os_count}</td>
+                        <tr className={"first"}>
+                            <td>{value.ordSup_type}</td>
+                            <td>{value.createdAt.slice(0, 10)}</td>
+                            <td>{value.user.user_name}</td>
+                        </tr>
+                        <tr className="troy">
+                        <td colSpan="3">
+                        <table className={"table_mini"}>
+                            <thead>
+                            <th>Назва</th>
+                            <th>Кількість</th>
+                            </thead>
+                        {listofSuborders.map((data, ) => {
+                            if (value.id == data.ordSupId){
+                                return (
+                                    <tbody>
+                                    <tr>
+                                        <td>{data.thing.thing_name}</td>
+                                        <td>{data.os_count}</td>
+                                    </tr>
+                                    </tbody>
+                                )
+                            }
+                        })}
+                        </table>
+                        </td>
                         </tr>
                         </tbody>
                     );

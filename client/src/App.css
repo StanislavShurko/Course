@@ -137,7 +137,7 @@ span {
 
 .filter_parent {
   height: 140px;
-  margin-bottom: 450px;
+  margin-bottom: 280px;
 }
 
 .filter {
@@ -212,7 +212,7 @@ h1 {
   display: inline-block;
   box-sizing: border-box;
   padding: 0 20px;
-  margin: 30px 15px 15px 0;
+  margin: 25px 15px 15px 0;
   font-family: verdana, 'open sans', sans-serif;
   outline: none;
   border: none;
@@ -249,3 +249,24 @@ label {
   font-family: verdana, 'open sans', sans-serif;
 }
 
+input {
+  font-size: 16px;
+}
+
+.table_mini {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.troy {
+  justify-content: center;
+  align-items: center;
+}
+
+td {
+  width: 100%;
+}
+
+.table_mini td {
+  width: fit-content;
+}
